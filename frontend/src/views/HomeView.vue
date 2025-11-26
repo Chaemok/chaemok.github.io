@@ -1,11 +1,14 @@
 <script setup>
+// 환경 변수 설정
+const API_URL = import.meta.env.VITE_API_URL
+
 import { ref, onMounted } from 'vue'
 
 const skills = ref([])
 // Django 서버에서 데이터 가져오기
 onMounted(async () => {
   try {
-    const res = await fetch('https://chaemok.onrender.com/api/skills/')
+    const res = await fetch(`${API_URL}/api/skills/`)
     skills.value = await res.json()
   } catch (err) { console.error(err) }
 })

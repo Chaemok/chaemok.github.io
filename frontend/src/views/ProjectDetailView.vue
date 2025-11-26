@@ -1,4 +1,7 @@
 <script setup>
+// 환경 변수 설정
+const API_URL = import.meta.env.VITE_API_URL
+
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router' // 주소창의 ID를 알아내는 도구
 
@@ -10,8 +13,9 @@ onMounted(async () => {
   try {
     // 주소창의 id(예: 1)를 가져와서 요청을 보냄
     const id = route.params.id 
-    const res = await fetch(`https://chaemok.onrender.com/api/projects/${id}/`)
-    
+    // const res = await fetch(`https://chaemok.onrender.com/api/projects/${id}/`)
+    const res = await fetch(`${API_URL}/api/projects/${id}/`)
+
     if (res.ok) {
       project.value = await res.json()
     } else {

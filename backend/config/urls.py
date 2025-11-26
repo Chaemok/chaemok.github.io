@@ -26,4 +26,7 @@ urlpatterns = [
     path('api/projects/', views.project_list),
     path('api/projects/<int:pk>/', views.project_detail),
     path('api/timelines/', views.timeline_list),
+    path('api/posts/', views.post_list),
+    path('api/posts/<int:pk>/', views.post_detail),
+    path('api/guestbook/', views.guestbook_list),
 ]

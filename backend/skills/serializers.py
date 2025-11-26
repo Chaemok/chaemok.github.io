@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Skill, Project, Timeline
+from .models import Skill, Project, Timeline, Post, Guestbook
 
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +14,15 @@ class ProjectSerializer(serializers.ModelSerializer):
 class TimelineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Timeline
+        fields = '__all__'
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
+class GuestbookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Guestbook
         fields = '__all__'

@@ -1,4 +1,7 @@
 <script setup>
+// 환경 변수 설정
+const API_URL = import.meta.env.VITE_API_URL
+
 import { ref, onMounted } from 'vue'
 
 const projects = ref([])
@@ -6,7 +9,7 @@ const isLoading = ref(true)
 // Django 서버에서 데이터 가져오기
 onMounted(async () => {
   try {
-    const res = await fetch('https://chaemok.onrender.com/api/projects/')
+    const res = await fetch(`${API_URL}/api/projects/`)
     projects.value = await res.json()
   } catch (err) { console.error(err) } finally { isLoading.value = false }
 })

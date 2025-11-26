@@ -7,11 +7,14 @@ import profileImage from '@/assets/leechaemok.jpg'
 const timelines = ref([])
 const isLoading = ref(true)
 
+const API_URL = import.meta.env.VITE_API_URL
+
 // 2. 타임라인 데이터 API 호출
 onMounted(async () => {
   try {
     // 배포된 Render 주소로 API 요청 (https://chaemok.onrender.com/api/timelines/)
-    const res = await fetch('https://chaemok.onrender.com/api/timelines/')
+    // 이제 API_URL이 개발 환경에서는 127.0.0.1:8000, 배포 환경에서는 render.com이 됩니다.
+    const res = await fetch(`${API_URL}/api/timelines/`)
     if (res.ok) {
       timelines.value = await res.json()
     }

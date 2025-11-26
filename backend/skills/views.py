@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status  # 상태 코드(201 Created 등) 쓰려고 추가
-from .models import Skill, Project, Timeline
-from .serializers import SkillSerializer, ProjectSerializer, TimelineSerializer
+from .models import Skill, Project, Timeline, Post, Guestbook
+from .serializers import SkillSerializer, ProjectSerializer, TimelineSerializer, PostSerializer, GuestbookSerializer
 
 # GET(조회)뿐만 아니라 POST(생성)도 허용한다고 명시!
 @api_view(['GET', 'POST'])
@@ -65,6 +65,36 @@ def timeline_list(request):
     serializer = TimelineSerializer(timelines, many=True)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def post_list(request):
+    posts = Post.objects.all()
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def post_detail(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+    except Post.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['GET', 'POST'])
+def guestbook_list(request):
+    if request.method == 'GET':
+        guestbooks = Guestbook.objects.all()
+        serializer = GuestbookSerializer(guestbooks, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = GuestbookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # from rest_framework.decorators import api_view
 # from rest_framework.response import Response

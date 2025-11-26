@@ -57,3 +57,8 @@ coverage
 
 # Vitest
 __screenshots__/
+
+
+# Vue Environment Variables
+frontend/.env.development
+frontend/.env.production

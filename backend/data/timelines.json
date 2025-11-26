@@ -3,7 +3,7 @@
     "model": "skills.timeline",
     "pk": 1,
     "fields": {
-      "start_date": "2024.07",
+      "start_date": "2025.07",
       "end_date": "현재",
       "title": "SSAFY 14기 Python Track",
       "description": "알고리즘, Web, Django, Vue.js 심화 과정 학습 중. 1학기 관통 프로젝트 최우수상 수상 목표.",
