@@ -6,7 +6,7 @@ const isLoading = ref(true)
 // Django 서버에서 데이터 가져오기
 onMounted(async () => {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/projects/')
+    const res = await fetch('https://chaemok-backend.onrender.com/api/projects/')
     projects.value = await res.json()
   } catch (err) { console.error(err) } finally { isLoading.value = false }
 })

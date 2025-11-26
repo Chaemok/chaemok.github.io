@@ -7,7 +7,7 @@ const isLoading = ref(true)
 onMounted(async () => {
   try {
     // Django API 호출
-    const res = await fetch('http://127.0.0.1:8000/api/timelines/')
+    const res = await fetch('https://chaemok-backend.onrender.com/api/timelines/')
     if (res.ok) {
       timelines.value = await res.json()
     }
@@ -117,4 +117,4 @@ onMounted(async () => {
 }
 
 .loading { text-align: center; color: #999; }
-</style>
+</style>  

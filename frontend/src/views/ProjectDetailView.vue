@@ -10,7 +10,7 @@ onMounted(async () => {
   try {
     // 주소창의 id(예: 1)를 가져와서 요청을 보냄
     const id = route.params.id 
-    const res = await fetch(`http://127.0.0.1:8000/api/projects/${id}/`)
+    const res = await fetch(`https://chaemok-backend.onrender.com/api/projects/${id}/`)
     
     if (res.ok) {
       project.value = await res.json()
@@ -40,7 +40,7 @@ onMounted(async () => {
       </header>
 
       <div class="image-box">
-        <img v-if="project.image" :src="`http://127.0.0.1:8000${project.image}`" alt="project img" />
+        <img v-if="project.image" :src="`https://chaemok-backend.onrender.com${project.image}`" alt="project img" />
         <div v-else class="no-img">No Image</div>
       </div>
 
