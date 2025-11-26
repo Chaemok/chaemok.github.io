@@ -7,7 +7,7 @@ const isLoading = ref(true)
 onMounted(async () => {
   try {
     // Django API 호출
-    const res = await fetch('https://chaemok-backend.onrender.com/api/timelines/')
+    const res = await fetch('https://chaemok.onrender.com/api/timelines/')
     if (res.ok) {
       timelines.value = await res.json()
     }

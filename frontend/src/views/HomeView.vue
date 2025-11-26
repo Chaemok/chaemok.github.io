@@ -5,7 +5,7 @@ const skills = ref([])
 // Django 서버에서 데이터 가져오기
 onMounted(async () => {
   try {
-    const res = await fetch('https://chaemok-backend.onrender.com/api/skills/')
+    const res = await fetch('https://chaemok.onrender.com/api/skills/')
     skills.value = await res.json()
   } catch (err) { console.error(err) }
 })
