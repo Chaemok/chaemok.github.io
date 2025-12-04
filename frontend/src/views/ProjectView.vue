@@ -1,158 +1,228 @@
 <script setup>
-// 환경 변수 설정
 const API_URL = import.meta.env.VITE_API_URL
-
 import { ref, onMounted } from 'vue'
 
 const projects = ref([])
 const isLoading = ref(true)
-// Django 서버에서 데이터 가져오기
+
+// 이미지 경로 처리 함수 (필요 시 수정)
+const getImageUrl = (url) => {
+  if (!url) return null;
+  // 만약 URL이 http로 시작하면 그대로 쓰고, 아니면 API_URL을 붙여줌
+  if (url.startsWith('http')) return url;
+  return `${API_URL}${url}`;
+}
+
 onMounted(async () => {
   try {
     const res = await fetch(`${API_URL}/api/projects/`)
-    projects.value = await res.json()
-  } catch (err) { console.error(err) } finally { isLoading.value = false }
+    if (res.ok) {
+      projects.value = await res.json()
+    }
+  } catch (err) {
+    console.error("프로젝트 로딩 실패:", err)
+  } finally {
+    isLoading.value = false
+  }
 })
 </script>
 
 <template>
   <div class="project-page">
+    
     <section class="page-header">
       <div class="container">
-        <h2 class="page-title">💻 Projects</h2>
-        <p class="page-desc">지금까지 진행한 주요 프로젝트입니다.</p>
+        <span class="badge">Portfolio</span>
+        <h2 class="page-title">Projects</h2>
+        <p class="page-desc">
+          문제를 해결하며 성장했던 기록들입니다.<br>
+          Django와 Vue.js를 활용한 주요 프로젝트를 소개합니다.
+        </p>
       </div>
     </section>
 
     <section class="project-list-section">
       <div class="container">
-        <div v-if="isLoading" class="loading">데이터를 불러오는 중...</div>
         
-        <div v-else class="project-grid">
-          <div v-for="p in projects" :key="p.id" class="project-card">
-            <div class="card-image">
-              <img v-if="p.image_url" :src="p.image_url" alt="project cover" />
-              <div v-else class="no-image">No Image</div>
-            </div>
-            <div class="card-body">
-              <h3 class="project-title">
-                <router-link :to="`/projects/${p.id}`">{{ p.title }}</router-link>
-              </h3>
-              <p class="project-desc">{{ p.description }}</p>
-              <a v-if="p.github_url" :href="p.github_url" target="_blank" class="btn-link">
-                GitHub 보러가기 →
-              </a>
-            </div>
-          </div>
+        <div v-if="isLoading" class="loading-state">
+          <div class="spinner"></div>
         </div>
+        
+        <div v-else-if="projects.length === 0" class="empty-state">
+          등록된 프로젝트가 없습니다.
+        </div>
+
+        <div v-else class="project-grid">
+          <article v-for="p in projects" :key="p.id" class="project-card">
+            <router-link :to="`/projects/${p.id}`" class="card-link">
+              
+              <div class="card-image-wrapper">
+                <img 
+                  v-if="p.image || p.image_url" 
+                  :src="getImageUrl(p.image || p.image_url)" 
+                  alt="Project Image" 
+                  class="card-img"
+                />
+                <div v-else class="no-image-placeholder">
+                  <span class="placeholder-text">{{ p.title.substring(0, 1) }}</span>
+                </div>
+              </div>
+
+              <div class="card-content">
+                <h3 class="card-title">{{ p.title }}</h3>
+                <p class="card-desc">{{ p.description }}</p>
+                
+                <div class="card-footer">
+                  <span class="btn-text">자세히 보기 &rarr;</span>
+                </div>
+              </div>
+
+            </router-link>
+          </article>
+        </div>
+
       </div>
     </section>
   </div>
 </template>
 
 <style scoped>
-.container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
+/* 공통 레이아웃 */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-/* 페이지 헤더 */
-.page-header { background: #f9fafb; padding: 60px 0; text-align: center; border-bottom: 1px solid #eee; }
-.page-title { font-size: 2.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 10px; }
-.page-desc { color: #777; }
+/* 헤더 스타일 (AboutView와 통일감) */
+.page-header {
+  padding: 80px 0 50px;
+  background-color: #fff;
+}
+.badge {
+  display: inline-block; padding: 6px 12px;
+  background-color: #e3f2fd; color: #1565c0;
+  border-radius: 20px; font-size: 0.85rem; font-weight: 700;
+  margin-bottom: 15px;
+}
+.page-title {
+  font-size: 2.5rem; font-weight: 800; color: #212529;
+  margin: 0 0 15px 0;
+}
+.page-desc {
+  color: #555; font-size: 1.1rem; line-height: 1.6;
+}
 
-/* 프로젝트 리스트 섹션 */
-.project-list-section { padding: 60px 0; background: white; }
+/* 그리드 레이아웃 (반응형 핵심) */
+.project-list-section { padding-bottom: 100px; }
 
 .project-grid {
   display: grid;
-  /* PC에서는 3열, 태블릿 2열, 모바일 1열 자동 조정 */
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  /* 카드 최소 너비 320px, 공간 남으면 늘어남 */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 30px;
 }
 
+/* 카드 디자인 */
 .project-card {
   background: white;
-  border: 1px solid #eee;
-  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  display: flex; flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
-.project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: transparent; }
 
-.card-image { height: 200px; overflow: hidden; background: #f1f1f1; }
-.card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-.project-card:hover .card-image img { transform: scale(1.05); }
-.no-image { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #aaa; font-weight: 600; }
-
-.card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-.project-title { font-size: 1.4rem; margin: 0 0 15px; color: #2c3e50; }
-.project-desc { color: #555; line-height: 1.6; margin-bottom: 25px; flex-grow: 1; /* 설명이 짧아도 버튼 위치 맞춤 */ }
-
-.btn-link {
-  display: inline-block; text-align: center;
-  padding: 12px 0; background: #2c3e50; color: white; border-radius: 8px;
-  font-weight: 600; transition: background 0.3s;
+.project-card:hover {
+  transform: translateY(-5px); /* 살짝 위로 뜸 */
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08); /* 그림자 */
+  border-color: #42b883; /* 테두리 초록색 포인트 */
 }
-.btn-link:hover { background: #42b883; }
 
-.loading { text-align: center; padding: 50px; color: #777; }
-
-@media (min-width: 1024px) { .container { padding: 0; } }
-
-/* style scoped 안에 추가 */
-.project-title a {
+.card-link {
   text-decoration: none;
-  color: inherit; /* 원래 색상 유지 */
-  transition: color 0.2s;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-.project-title a:hover {
-  color: #42b883; /* 마우스 올리면 초록색 */
+
+/* 이미지 영역 (비율 고정) */
+.card-image-wrapper {
+  width: 100%;
+  height: 200px; /* 높이 고정하여 들쑥날쑥 방지 */
+  background-color: #f8f9fa;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.card-img {
+  width: 100%; height: 100%;
+  object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-img {
+  transform: scale(1.05); /* 마우스 올리면 이미지 살짝 확대 */
+}
+
+/* 이미지가 없을 때 대체 디자인 */
+.no-image-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.placeholder-text {
+  font-size: 3rem; font-weight: 800; color: #dee2e6;
+}
+
+/* 텍스트 내용 영역 */
+.card-content {
+  padding: 24px;
+  flex-grow: 1; /* 높이 맞춤 */
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.25rem; font-weight: 700; color: #212529;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.card-desc {
+  font-size: 0.95rem; color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  /* 3줄 이상 넘어가면 ... 처리 (CSS Line Clamp) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-footer {
+  margin-top: auto; /* 버튼을 항상 바닥으로 */
+}
+
+.btn-text {
+  font-size: 0.9rem; font-weight: 700; color: #42b883;
+}
+
+/* 로딩 & 빈 상태 */
+.loading-state, .empty-state {
+  text-align: center; padding: 60px 0; color: #868e96;
+}
+.spinner {
+  width: 40px; height: 40px; margin: 0 auto;
+  border: 4px solid #f3f3f3; border-top: 4px solid #42b883;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .project-grid { grid-template-columns: 1fr; } /* 모바일은 1단 */
+  .page-title { font-size: 2rem; }
 }
 </style>
-
-<!-- <script setup>
-  import { ref, onMounted } from 'vue'
-
-  const projects = ref([])
-  const isLoading = ref(true)
-
-  onMounted(async () => {
-    try {
-      const res = await fetch('http://127.0.0.1:8000/api/projects/')
-      projects.value = await res.json()
-    } catch (err) { console.error(err) } finally { isLoading.value = false }
-  })
-</script>
-
-<template>
-  <div class="page-container">
-    <h2 class="page-title">💻 Projects</h2>
-    
-    <div v-if="isLoading">Loading...</div>
-    <div v-else class="project-grid">
-      <div v-for="p in projects" :key="p.id" class="project-card">
-        <img v-if="p.image_url" :src="p.image_url" class="project-img" />
-        <div v-else class="no-img">No Image</div>
-        <div class="card-content">
-          <h3>{{ p.title }}</h3>
-          <p>{{ p.description }}</p>
-          <a v-if="p.github_url" :href="p.github_url" target="_blank" class="btn-link">View GitHub</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style scoped>
-  .page-container { padding: 40px 0; animation: fadeIn 0.5s ease; }
-  .page-title { font-size: 2rem; font-weight: 800; color: #2d3748; margin-bottom: 30px; }
-  .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-  .project-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s; }
-  .project-card:hover { transform: translateY(-5px); }
-  .project-img { width: 100%; height: 180px; object-fit: cover; }
-  .no-img { width: 100%; height: 180px; background: #cbd5e0; display: flex; align-items: center; justify-content: center; color: #fff; }
-  .card-content { padding: 20px; }
-  .card-content h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
-  .card-content p { color: #718096; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
-  .btn-link { display: inline-block; padding: 8px 16px; background: #2d3748; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-</style> -->

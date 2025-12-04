@@ -15,18 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from skills import views  # views 파일 가져오기
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # 이 주소로 들어오면 skill_list 함수 실행!
-    path('api/skills/', views.skill_list),
-    path('api/skills/<int:pk>/', views.skill_detail),
-    path('api/projects/', views.project_list),
-    path('api/projects/<int:pk>/', views.project_detail),
-    path('api/timelines/', views.timeline_list),
-    path('api/posts/', views.post_list),
-    path('api/posts/<int:pk>/', views.post_detail),
-    path('api/guestbook/', views.guestbook_list),
+    path('api/', include('skills.urls')),
+    path('api/projects/', include('projects.urls')),
 ]

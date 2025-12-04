@@ -4,6 +4,8 @@ env/
 
 # 로컬 DB (서버엔 필요 없음)
 db.sqlite3
+# 환경변수
+.env
 
 # 파이썬 캐시 파일
 __pycache__/

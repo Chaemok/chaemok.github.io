@@ -3,96 +3,99 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="app-layout">
-    <nav class="navbar">
-      <div class="nav-container">
-        <RouterLink to="/" class="logo">MOK</RouterLink>
-        <div class="menu">
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">Introduction</RouterLink> <RouterLink to="/projects">Projects</RouterLink>
-        </div>
-
+  <div class="layout">
+    <header class="app-header">
+      <div class="header-container">
+        <RouterLink to="/" class="logo">Chaemok.Dev</RouterLink>
+        
+        <nav class="nav-menu">
+          <RouterLink to="/projects" class="nav-link">Projects</RouterLink>
+          <RouterLink to="/about" class="nav-link">About</RouterLink>
+          <RouterLink to="/contact">Contact</RouterLink>
+        </nav>
       </div>
-    </nav>
+    </header>
 
-    <main class="main-content">
+    <main class="app-main">
       <RouterView />
     </main>
 
-    <footer class="footer">
-      <div class="footer-content">
-        <p class="copyright">© 2025 Chaemok Lee.</p>
-        <p class="tech-stack">포트폴리오용으로 제작되었으며, 상업적인 용도로 사용하지 않음을 밝힙니다.</p>
-      </div>
+    <footer class="app-footer">
+      <p>© 2025 Lee Chaemok. All rights reserved. </p>
     </footer>
   </div>
 </template>
 
 <style scoped>
-.app-layout {
+/* 레이아웃 잡기 */
+.layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.navbar {
-  position: fixed;
-  top: 0; left: 0; width: 100%;
+/* 헤더 스타일 */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.9); /* 살짝 투명해서 고급스러움 */
+  backdrop-filter: blur(10px); /* 뒤에 내용이 흐릿하게 비침 */
+  border-bottom: 1px solid #f1f1f1;
   height: 70px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #eaeaea;
-  z-index: 1000;
   display: flex;
-  justify-content: center;
-}
-
-.nav-container {
-  width: 100%;
-  max-width: 1200px;
-  padding: 0 40px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  height: 100%;
 }
 
-.logo { font-weight: 800; font-size: 1.5rem; color: #2c3e50; letter-spacing: -0.5px; }
-.menu { display: flex; gap: 40px; }
-.menu a { font-weight: 500; color: #555; font-size: 1rem; transition: color 0.3s; }
-.menu a:hover, .menu a.router-link-active { color: #42b883; font-weight: 700; }
-
-/* ✅ 여기가 핵심 수정사항입니다! */
-.main-content {
-  flex: 1;
-  padding-top: 70px;
-  width: 100%; /* 화면 꽉 채우기 */
-  display: flex;     /* 내부 요소 정렬 보정 */
-  flex-direction: column;
-}
-
-.footer {
-  background-color: #f8f9fa;
-  border-top: 1px solid #eaeaea;
+.header-container {
   width: 100%;
-  padding: 40px 0;
-  margin-top: auto;
-}
-
-.footer-content {
-  max-width: 1200px;
+  max-width: 1100px; /* HomeView 컨테이너와 너비 맞춤 */
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.copyright { font-weight: 600; color: #2c3e50; font-size: 1rem; }
-.tech-stack { color: #888; font-size: 0.9rem; }
+/* 로고 스타일 */
+.logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #2c3e50;
+  letter-spacing: -0.5px;
+}
 
-@media (max-width: 768px) {
-  .nav-container, .footer-content { padding: 0 20px; }
-  .footer-content { flex-direction: column; gap: 10px; text-align: center; }
+/* 네비게이션 링크 스타일 */
+.nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  position: relative;
+}
+
+.nav-link:hover, .router-link-active {
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+/* 메인 컨텐츠 영역 */
+.app-main {
+  flex: 1; /* 푸터를 바닥으로 밀어내기 위함 */
+  width: 100%;
+}
+
+/* 푸터 스타일 */
+.app-footer {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 0.9rem;
+  color: #999;
+  border-top: 1px solid #eee;
+  margin-top: auto;
 }
 </style>
