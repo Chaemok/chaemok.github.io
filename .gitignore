@@ -1,0 +1,66 @@
+# 가상환경 폴더
+venv/
+env/
+
+# 로컬 DB (서버엔 필요 없음)
+db.sqlite3
+# 환경변수
+.env
+
+# 파이썬 캐시 파일
+__pycache__/
+*.pyc
+
+# 미디어 파일 (업로드한 사진들)
+# (이미지는 로컬에만 있고 서버엔 없어서 엑박이 뜰 수 있지만, 
+#  무료 서버 용량 문제로 보통 깃에는 안 올립니다. 
+#  일단은 media 폴더 전체를 무시하거나, media/ 안에 빈 파일(.gitkeep)만 두고 무시합니다.)
+media/
+
+# 맥(Mac) 잡동사니
+.DS_Store
+
+# VS Code 설정
+.vscode/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+
+.eslintcache
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+
+# Vitest
+__screenshots__/
+
+
+# Vue Environment Variables
+frontend/.env.development
+frontend/.env.production

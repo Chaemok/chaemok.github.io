@@ -1,0 +1,46 @@
+[
+  {
+    "model": "skills.timeline",
+    "pk": 1,
+    "fields": {
+      "start_date": "2025.07",
+      "end_date": "현재",
+      "title": "SSAFY 14기 Python Track",
+      "description": "알고리즘, Web, Django, Vue.js 심화 과정 학습 중. 1학기 관통 프로젝트 최우수상 수상 목표.",
+      "order_date": "2024-07-01"
+    }
+  },
+  {
+    "model": "skills.timeline",
+    "pk": 2,
+    "fields": {
+      "start_date": "2021.03",
+      "end_date": "2025.02",
+      "title": "한양대학교 졸업",
+      "description": "물리학과, 융합전자공학부 복수 전공. 학부 연구생 활동 수행.",
+      "order_date": "2021-03-01"
+    }
+  },
+  {
+    "model": "skills.timeline",
+    "pk": 3,
+    "fields": {
+      "start_date": "2018.03",
+      "end_date": "2019.11",
+      "title": "대한민국 육군 병장 만기전역",
+      "description": "운전병으로 복무하며 책임감과 인내심을 배움.",
+      "order_date": "2018-03-01"
+    }
+  },
+  {
+    "model": "skills.timeline",
+    "pk": 4,
+    "fields": {
+      "start_date": "2012.03",
+      "end_date": "2015.02",
+      "title": "경북고등학교 졸업",
+      "description": "",
+      "order_date": "2012-03-01"
+    }
+  }
+]

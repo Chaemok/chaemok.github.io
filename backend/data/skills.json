@@ -1,0 +1,65 @@
+[
+  {
+    "model": "skills.skill",
+    "pk": 1,
+    "fields": {
+      "name": "Python",
+      "level": "Advanced",
+      "category": "Language"
+    }
+  },
+  {
+    "model": "skills.skill",
+    "pk": 2,
+    "fields": {
+      "name": "Django & DRF",
+      "level": "Intermediate",
+      "category": "Backend"
+    }
+  },
+  {
+    "model": "skills.skill",
+    "pk": 3,
+    "fields": {
+      "name": "Vue.js",
+      "level": "Intermediate",
+      "category": "Frontend"
+    }
+  },
+  {
+    "model": "skills.skill",
+    "pk": 4,
+    "fields": {
+      "name": "JavaScript (ES6+)",
+      "level": "Intermediate",
+      "category": "Frontend"
+    }
+  },
+  {
+    "model": "skills.skill",
+    "pk": 5,
+    "fields": {
+      "name": "Git & GitHub",
+      "level": "Advanced",
+      "category": "Tools"
+    }
+  },
+  {
+    "model": "skills.skill",
+    "pk": 6,
+    "fields": {
+      "name": "Java & Spring",
+      "level": "Beginner",
+      "category": "Backend"
+    }
+  },
+  {
+    "model": "skills.skill",
+    "pk": 7,
+    "fields": {
+      "name": "React",
+      "level": "Beginner",
+      "category": "Frontend"
+    }
+  }
+]
