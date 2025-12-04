@@ -45,9 +45,8 @@ const form = ref({
 const submitForm = async () => {
   try {
     // ⚠️ 주의: 배포 후에는 이 주소를 'https://chaemok-portfolio-api.onrender.com/api/contact/' 로 바꿔야 합니다.
-    // 지금 로컬 테스트 중이라면 'http://127.0.0.1:8000/api/contact/' 사용
-    const API_URL = 'http://127.0.0.1:8000/api/contact/'; 
-    
+    // const API_URL = 'http://127.0.0.1:8000/api/contact/'; 
+    const API_URL = 'https://chaemok-portfolio-api.onrender.com/api/contact/';
     const response = await axios.post(API_URL, form.value);
     
     if (response.status === 201) {
