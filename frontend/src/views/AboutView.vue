@@ -6,7 +6,8 @@ import profileImage from '@/assets/leechaemok.jpg'
 
 const timelines = ref([])
 const isLoading = ref(true)
-const API_URL = import.meta.env.VITE_API_URL
+// const API_URL = import.meta.env.VITE_API_URL //로컬서버
+const API_URL = 'https://chaemok-github-io.onrender.com';
 
 onMounted(async () => {
   try {

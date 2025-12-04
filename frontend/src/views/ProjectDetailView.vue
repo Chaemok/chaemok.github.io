@@ -1,5 +1,6 @@
 <script setup>
-const API_URL = import.meta.env.VITE_API_URL
+//const API_URL = import.meta.env.VITE_API_URL // 로컬에서
+const API_URL = 'https://chaemok-github-io.onrender.com'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
