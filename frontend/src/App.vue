@@ -17,6 +17,7 @@ const closeMenu = () => {
 </script>
 
 <template>
+  <!-- 👇 여기 열린 태그가 맨 밑에서 닫혀야 합니다 -->
   <div class="app-layout">
     <header>
       <div class="wrapper">
@@ -24,6 +25,7 @@ const closeMenu = () => {
           <RouterLink to="/" @click="closeMenu">Chaemok.Dev</RouterLink>
         </div>
 
+        <!-- 데스크탑 메뉴 -->
         <nav class="desktop-nav">
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/about">About</RouterLink>
@@ -31,11 +33,13 @@ const closeMenu = () => {
           <RouterLink to="/contact">Contact</RouterLink>
         </nav>
 
+        <!-- 햄버거 버튼 -->
         <button class="hamburger-btn" @click="toggleMenu">
           ☰
         </button>
       </div>
 
+      <!-- 모바일 메뉴 -->
       <nav class="mobile-nav" :class="{ 'open': isMenuOpen }">
         <RouterLink to="/" @click="closeMenu">Home</RouterLink>
         <RouterLink to="/about" @click="closeMenu">About</RouterLink>
@@ -44,12 +48,15 @@ const closeMenu = () => {
       </nav>
     </header>
 
+    <!-- 본문 -->
     <main class="main-content">
       <RouterView />
     </main>
 
+    <!-- 푸터 -->
     <footer class="app-footer">
       <div class="footer-content">
+        <!-- 안내 문구 -->
         <p class="portfolio-notice">
           본 사이트는 상업적 목적으로 제작되지 않았으며, 개인 포트폴리오 용도로 제작되었습니다.
         </p>
@@ -62,18 +69,19 @@ const closeMenu = () => {
         </div>
       </div>
     </footer>
+  </div> <!-- 👈 [중요] 아까 빠졌던 닫는 태그입니다! -->
 </template>
 
 <style scoped>
-/* 전체 레이아웃 잡기 (푸터를 바닥에 붙이기 위함) */
+/* 전체 레이아웃 */
 .app-layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* 화면 전체 높이 */
+  min-height: 100vh;
 }
 
 .main-content {
-  flex: 1; /* 남은 공간을 다 차지해서 푸터를 밀어냄 */
+  flex: 1;
 }
 
 /* 헤더 스타일 */
@@ -148,11 +156,11 @@ header {
   color: #42b883;
 }
 
-/* 👇 푸터 스타일 추가 */
+/* 푸터 스타일 */
 .app-footer {
-  background-color: #f8f9fa; /* 연한 회색 배경 */
+  background-color: #f8f9fa;
   padding: 40px 0;
-  margin-top: auto; /* 내용이 짧아도 바닥에 붙게 함 */
+  margin-top: auto;
   text-align: center;
   border-top: 1px solid #eee;
 }
@@ -163,13 +171,14 @@ header {
   margin-bottom: 10px;
 }
 
-
+/* 저작권 안내 문구 스타일 */
 .portfolio-notice {
-  font-size: 0.8rem;      /* 아주 작은 글씨 */
-  color: #adb5bd;         /* 연한 회색 */
-  margin-bottom: 8px;     /* 저작권 문구와 간격 띄우기 */
-  word-break: keep-all;   /* 한글 단어 끊김 방지 */
+  font-size: 0.8rem;
+  color: #adb5bd;
+  margin-bottom: 15px; /* 간격 조정 */
+  word-break: keep-all;
   line-height: 1.4;
+  padding: 0 10px; /* 모바일에서 글자가 너무 붙지 않게 */
 }
 
 .social-links a {
@@ -185,7 +194,7 @@ header {
   text-decoration: underline;
 }
 
-/* 모바일 반응형 (768px 이하) */
+/* 모바일 반응형 */
 @media (max-width: 768px) {
   .desktop-nav {
     display: none;
