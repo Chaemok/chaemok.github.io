@@ -60,83 +60,97 @@ onMounted(async () => {
 </template> 
 
 <style scoped>
-/* 이 내용을 <style scoped> 안에 덮어씌우세요 */
+/* =========================================
+   1. 공통 스타일 (PC 및 기본 레이아웃)
+   ========================================= */
+.home-container {
+  width: 100%;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
 
 .container { 
   max-width: 1100px; 
   margin: 0 auto; 
-  padding: 0 20px; 
+  padding: 0 24px; 
 }
 
-/* 1. Hero 섹션: 전체를 감싸는 배경 */
+/* Hero 섹션 (메인 화면) */
 .hero-section {
   display: flex;
-  align-items: center;       /* 수직 중앙 정렬 */
-  justify-content: center;   /* 수평 중앙 정렬 */
-  min-height: 80vh;          /* 화면 높이의 80%를 차지해서 시원하게 */
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;          /* PC: 화면 꽉 차게 시원한 느낌 */
   background-color: #fff;
-  padding: 0;                /* 패딩 제거 (min-height로 대체) */
+  padding: 60px 0;
 }
 
-/* 2. 텍스트 박스: 핵심! 박스는 가운데지만 글자는 왼쪽 */
 .text-box {
   width: 100%;
-  max-width: 680px;      /* 글자가 너무 퍼지지 않게 적당히 조임 */
-  margin: 0 auto;        /* 박스 자체를 화면 가운데로 */
-  text-align: left;      /* 글자는 왼쪽 정렬 (가독성 UP) */
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: left;          /* PC: 왼쪽 정렬 (세련된 느낌) */
 }
 
 .badge {
-  display: inline-block; padding: 8px 16px;
-  background-color: #f1f3f5; color: #495057; /* 색상을 조금 더 차분하게 변경 */
-  border-radius: 30px; font-size: 0.9rem; font-weight: 700;
+  display: inline-block; 
+  padding: 8px 18px;
+  background-color: #f8f9fa; 
+  color: #495057;
+  border: 1px solid #e9ecef;
+  border-radius: 50px; 
+  font-size: 0.95rem; 
+  font-weight: 700;
   margin-bottom: 24px;
+  letter-spacing: -0.5px;
 }
 
 .hero-title {
-  font-size: 3.8rem;     /* 제목은 아주 크게 */
+  font-size: 3.5rem;         /* PC: 너무 크지 않게 3.5rem으로 조정 (기존 4rem에서 축소) */
   font-weight: 800;
   color: #212529;
   line-height: 1.2;
-  margin-bottom: 30px;
-  letter-spacing: -1px;  /* 자간을 살짝 좁혀서 단단한 느낌 */
+  margin-bottom: 32px;
+  letter-spacing: -1.5px;
 }
 
 .highlight {
-  color: #42b883;
-  position: relative; /* 형광펜 효과 제거하고 깔끔하게 색상만 강조 */
+  color: #42b883;            /* Vue Green */
 }
 
 .hero-subtitle {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: #495057;
-  line-height: 1.8;
-  margin-bottom: 50px;
-  word-break: keep-all;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  word-break: keep-all;      /* 단어 중간에 끊기지 않게 */
 }
 
-/* 버튼 그룹: 왼쪽 정렬 */
 .hero-buttons {
   display: flex;
-  gap: 15px;
-  justify-content: flex-start; /* 버튼도 왼쪽에서 시작 */
+  gap: 16px;
+  justify-content: flex-start; /* PC: 버튼 왼쪽 정렬 */
 }
 
-/* 버튼 스타일 */
 .btn {
-  padding: 15px 35px; /* 버튼 크기 좀 더 키움 */
-  border-radius: 8px;
+  padding: 16px 32px;
+  border-radius: 12px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   text-decoration: none;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .btn-primary {
   background: #212529; color: white; border: 1px solid #212529;
 }
 .btn-primary:hover {
   background: #42b883; border-color: #42b883; transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(66, 184, 131, 0.3);
 }
+
 .btn-outline {
   background: white; color: #495057; border: 1px solid #dee2e6;
 }
@@ -144,24 +158,79 @@ onMounted(async () => {
   background: #f8f9fa; border-color: #adb5bd; color: #212529; transform: translateY(-3px);
 }
 
-/* Skills Section 등 나머지는 그대로 유지 */
+/* Skills 섹션 스타일 */
 .skills-section { padding: 100px 0; background: #f8f9fa; }
-.section-title { font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 10px; color: #1a1a1a; }
-.section-desc { text-align: center; color: #666; margin-bottom: 50px; font-size: 1.1rem; }
-.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-.skill-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; border: 1px solid #eee; }
-.skill-card:hover { transform: translateY(-3px); border-color: #42b883; }
-.skill-name { font-weight: 700; color: #333; font-size: 1.1rem; display: block; margin-bottom: 12px; }
-.progress-bar { width: 100%; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 3px; }
+.section-title { font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 12px; color: #1a1a1a; letter-spacing: -1px; }
+.section-desc { text-align: center; color: #666; margin-bottom: 60px; font-size: 1.1rem; }
+.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 24px; }
+.skill-card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: transform 0.2s; border: 1px solid #f1f3f5; }
+.skill-card:hover { transform: translateY(-5px); border-color: #42b883; }
+.skill-name { font-weight: 700; color: #333; font-size: 1.15rem; display: block; margin-bottom: 16px; }
+.progress-bar { width: 100%; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; }
 .progress-fill.advanced { width: 90%; background: #42b883; }
 .progress-fill.intermediate { width: 65%; background: #fbc02d; }
 .progress-fill.beginner { width: 30%; background: #ff7043; }
 
-/* 모바일 반응형 */
+
+/* =========================================
+   2. 모바일 전용 스타일 (스마트폰 최적화)
+   화면 폭이 768px 이하일 때만 적용됨
+   ========================================= */
 @media (max-width: 768px) {
-  .hero-title { font-size: 2.8rem; }
-  .text-box { text-align: center; } /* 모바일에서는 다시 가운데 정렬이 예쁨 */
-  .hero-buttons { justify-content: center; }
+  
+  /* 높이 및 정렬 재조정 */
+  .hero-section {
+    min-height: auto;        /* 강제 높이 해제 (스크롤 자연스럽게) */
+    padding: 80px 0 60px 0;  /* 위아래 여백 넉넉히 */
+    text-align: center;      /* 전체 가운데 정렬 */
+  }
+
+  .text-box {
+    text-align: center;      /* 글자 가운데 정렬 */
+    padding: 0 16px;
+    margin: 0 auto;
+  }
+
+  /* 폰트 크기 최적화 (너무 크지 않게) */
+  .hero-title {
+    font-size: 2.5rem;       /* 모바일 제목 크기 축소 */
+    line-height: 1.3;
+    margin-bottom: 20px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;         /* 본문 크기 살짝 축소 */
+    line-height: 1.6;
+    margin-bottom: 40px;
+    color: #6c757d;
+  }
+
+  /* 요소 배치 재조정 */
+  .badge {
+    margin: 0 auto 20px auto; /* 뱃지 가운데 정렬 */
+  }
+
+  /* 버튼: 위아래로 쌓아서 누르기 편하게 */
+  .hero-buttons {
+    flex-direction: column;  /* 세로 배치 */
+    width: 100%;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;             /* 버튼 꽉 채우기 */
+    padding: 16px;
+  }
+  
+  /* 스킬 카드 2열 배치 */
+  .skill-grid {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 16px;
+  }
+  
+  .skills-section {
+    padding: 60px 0;
+  }
 }
 </style>
