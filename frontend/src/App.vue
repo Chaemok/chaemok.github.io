@@ -1,101 +1,139 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+
+// 1. 메뉴가 열렸는지 닫혔는지 상태를 저장하는 변수
+const isMenuOpen = ref(false)
+
+// 2. 햄버거 버튼 누르면 열렸다 닫혔다 하는 함수
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+}
+
+// 3. 메뉴 클릭하면 닫히게 하는 함수 (모바일에서 이동 후 메뉴 닫기 위함)
+const closeMenu = () => {
+  isMenuOpen.value = false
+}
 </script>
 
 <template>
-  <div class="layout">
-    <header class="app-header">
-      <div class="header-container">
-        <RouterLink to="/" class="logo">Chaemok.Dev</RouterLink>
-        
-        <nav class="nav-menu">
-          <RouterLink to="/projects" class="nav-link">Projects</RouterLink>
-          <RouterLink to="/about" class="nav-link">About</RouterLink>
-          <RouterLink to="/contact">Contact</RouterLink>
-        </nav>
+  <header>
+    <div class="wrapper">
+      <div class="logo">
+        <RouterLink to="/" @click="closeMenu">Chaemok.Dev</RouterLink>
       </div>
-    </header>
 
-    <main class="app-main">
-      <RouterView />
-    </main>
+      <nav class="desktop-nav">
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/projects">Projects</RouterLink>
+        <RouterLink to="/contact">Contact</RouterLink>
+      </nav>
 
-    <footer class="app-footer">
-      <p>© 2025 Lee Chaemok. All rights reserved. </p>
-    </footer>
-  </div>
+      <button class="hamburger-btn" @click="toggleMenu">
+        ☰
+      </button>
+    </div>
+
+    <nav class="mobile-nav" :class="{ 'open': isMenuOpen }">
+      <RouterLink to="/" @click="closeMenu">Home</RouterLink>
+      <RouterLink to="/projects" @click="closeMenu">Projects</RouterLink>
+      <RouterLink to="/contact" @click="closeMenu">Contact</RouterLink>
+    </nav>
+  </header>
+
+  <RouterView />
 </template>
 
 <style scoped>
-/* 레이아웃 잡기 */
-.layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* 헤더 스타일 */
-.app-header {
-  position: sticky;
+/* 헤더 전체 레이아웃 */
+header {
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  position: sticky; /* 스크롤 내려도 상단 고정 */
   top: 0;
-  z-index: 100;
-  background-color: rgba(255, 255, 255, 0.9); /* 살짝 투명해서 고급스러움 */
-  backdrop-filter: blur(10px); /* 뒤에 내용이 흐릿하게 비침 */
-  border-bottom: 1px solid #f1f1f1;
-  height: 70px;
-  display: flex;
-  align-items: center;
+  z-index: 1000;
 }
 
-.header-container {
-  width: 100%;
-  max-width: 1100px; /* HomeView 컨테이너와 너비 맞춤 */
+.wrapper {
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
+  height: 60px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between; /* 로고와 메뉴 양끝 정렬 */
 }
 
-/* 로고 스타일 */
-.logo {
-  font-size: 1.4rem;
+.logo a {
+  font-size: 1.5rem;
   font-weight: 800;
-  color: #2c3e50;
-  letter-spacing: -0.5px;
+  color: #212529;
+  text-decoration: none;
 }
 
-/* 네비게이션 링크 스타일 */
-.nav-menu {
-  display: flex;
-  gap: 30px;
-}
-
-.nav-link {
-  font-size: 1rem;
+/* 데스크탑 메뉴 스타일 */
+.desktop-nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #495057;
   font-weight: 500;
-  color: #555;
-  position: relative;
+  transition: color 0.2s;
 }
 
-.nav-link:hover, .router-link-active {
-  color: #2c3e50;
-  font-weight: 700;
+.desktop-nav a:hover, .desktop-nav a.router-link-active {
+  color: #42b883;
 }
 
-/* 메인 컨텐츠 영역 */
-.app-main {
-  flex: 1; /* 푸터를 바닥으로 밀어내기 위함 */
-  width: 100%;
+/* 햄버거 버튼 (기본적으로 숨김) */
+.hamburger-btn {
+  display: none; /* PC에서는 안 보임 */
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #333;
 }
 
-/* 푸터 스타일 */
-.app-footer {
-  text-align: center;
-  padding: 40px 0;
-  font-size: 0.9rem;
-  color: #999;
-  border-top: 1px solid #eee;
-  margin-top: auto;
+/* 모바일 메뉴 박스 (기본적으로 숨김 + 디자인) */
+.mobile-nav {
+  display: none; /* 평소엔 숨김 */
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.mobile-nav a {
+  display: block; /* 한 줄에 하나씩 */
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.mobile-nav a:hover {
+  background-color: #f8f9fa;
+  color: #42b883;
+}
+
+/* =========================================
+   📱 반응형 (768px 이하 모바일 화면)
+   ========================================= */
+@media (max-width: 768px) {
+  /* 데스크탑 메뉴 숨기기 */
+  .desktop-nav {
+    display: none;
+  }
+
+  /* 햄버거 버튼 보이기 */
+  .hamburger-btn {
+    display: block;
+  }
+
+  /* 모바일 메뉴가 'open' 클래스를 가지면 보이기 */
+  .mobile-nav.open {
+    display: flex; /* 열리면 보임 */
+  }
 }
 </style>

@@ -44,9 +44,9 @@ const form = ref({
 // 2. 폼 제출 함수
 const submitForm = async () => {
   try {
-    // ⚠️ 주의: 배포 후에는 이 주소를 'https://chaemok-portfolio-api.onrender.com/api/contact/' 로 바꿔야 합니다.
+    // ⚠️ 주의: 배포 후에는 이 주소를 'https://chaemok-github-io.onrender.com/api/contact/' 로 바꿔야 합니다.
     // const API_URL = 'http://127.0.0.1:8000/api/contact/'; 
-    const API_URL = 'https://chaemok-portfolio-api.onrender.com/api/contact/';
+    const API_URL = 'https://chaemok-githib-io.onrender.com/api/contact/';
     const response = await axios.post(API_URL, form.value);
     
     if (response.status === 201) {
